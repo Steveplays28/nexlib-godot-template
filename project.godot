@@ -17,10 +17,19 @@ config/icon="res://icon.png"
 [debug]
 
 multirun/number_of_windows=2
-multirun/window_distance=1270
+multirun/window_distance=700
 multirun/add_custom_args=true
 multirun/first_window_args=""
 multirun/other_window_args="client"
+
+[display]
+
+window/size/width=768
+window/size/height=432
+
+[editor]
+
+main_run_args="client"
 
 [editor_plugins]
 

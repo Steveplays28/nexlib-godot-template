@@ -6,6 +6,7 @@ public class ServerManager : Node
 {
 	private Server server;
 	private bool isServer;
+	private Label label;
 
 	public override void _Ready()
 	{
@@ -21,6 +22,7 @@ public class ServerManager : Node
 		}
 
 		server = new Server(26665);
+		label = GetNode<Label>("../Label");
 		server.LogHelper.Log += Log;
 		server.Start();
 	}
@@ -37,27 +39,35 @@ public class ServerManager : Node
 		server.Tick();
 	}
 
+	public override void _Notification(int what)
+	{
+		if (!isServer)
+		{
+			return;
+		}
+
+		if (what == MainLoop.NotificationWmQuitRequest)
+		{
+			server.Stop();
+		}
+	}
+
 	private void Log(LogHelper.LogLevel logLevel, string logMessage)
 	{
 		if (logLevel == LogHelper.LogLevel.Info)
 		{
 			GD.Print(logMessage);
+			label.Text += $"{logMessage}\n";
 		}
 		else if (logLevel == LogHelper.LogLevel.Warning)
 		{
 			GD.PushWarning(logMessage);
+			label.Text += $"{logMessage}\n";
 		}
 		else if (logLevel == LogHelper.LogLevel.Error)
 		{
 			GD.PushError(logMessage);
-		}
-	}
-
-	public override void _Notification(int what)
-	{
-		if (what == MainLoop.NotificationWmQuitRequest)
-		{
-			server.Stop();
+			label.Text += $"{logMessage}\n";
 		}
 	}
 }
