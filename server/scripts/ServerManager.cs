@@ -1,55 +1,37 @@
 using Godot;
-using NExLib.Client;
 using NExLib.Common;
+using NExLib.Server;
 
-public class ClientManager : Node
+public class ServerManager : Node
 {
-	private Client client;
-	private bool isClient;
+	[Export(PropertyHint.Range, "0,65535")] public int ServerPort = 26665;
+
+	private Server server;
 	private Label label;
 
 	public override void _Ready()
 	{
 		base._Ready();
 
-		if (OS.GetCmdlineArgs().Length > 0 && OS.GetCmdlineArgs()[0] == "client")
-		{
-			isClient = true;
-		}
-		else
-		{
-			return;
-		}
-
-		client = new Client();
 		label = GetNode<Label>("../Label");
-		client.LogHelper.Log += Log;
-		client.Connect("127.0.0.1", 26665);
+
+		server = new Server(ServerPort);
+		server.LogHelper.Log += Log;
+		server.Start();
 	}
 
 	public override void _Process(float delta)
 	{
 		base._Process(delta);
 
-		if (!isClient)
-		{
-			return;
-		}
-
-		client.Tick();
+		server.Tick();
 	}
 
 	public override void _Notification(int what)
 	{
-		if (!isClient)
+		if (what == NotificationWmQuitRequest || what == NotificationCrash)
 		{
-			return;
-		}
-
-		if (what == MainLoop.NotificationWmQuitRequest)
-		{
-			client.Disconnect();
-			client.Close();
+			server.Stop();
 		}
 	}
 

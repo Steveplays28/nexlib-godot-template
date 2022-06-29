@@ -11,7 +11,7 @@ config_version=4
 [application]
 
 config/name="nexlib-godot-template"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://common/scenes/main.tscn"
 config/icon="res://icon.png"
 
 [debug]
@@ -20,7 +20,7 @@ multirun/number_of_windows=2
 multirun/window_distance=700
 multirun/add_custom_args=true
 multirun/first_window_args=""
-multirun/other_window_args="client"
+multirun/other_window_args="--client"
 
 [display]
 
