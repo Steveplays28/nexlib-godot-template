@@ -10,7 +10,7 @@ public class ClientManager : Node
 	{
 		base._Ready();
 
-		if (OS.GetCmdlineArgs()[0] == "client")
+		if (OS.GetCmdlineArgs().Length > 0 && OS.GetCmdlineArgs()[0] == "client")
 		{
 			isClient = true;
 		}
@@ -20,7 +20,6 @@ public class ClientManager : Node
 		}
 
 		client = new Client();
-
 		client.Connect("127.0.0.1", 26665);
 	}
 

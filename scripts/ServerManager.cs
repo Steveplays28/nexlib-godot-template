@@ -1,4 +1,5 @@
 using Godot;
+using NExLib.Common;
 using NExLib.Server;
 
 public class ServerManager : Node
@@ -10,7 +11,7 @@ public class ServerManager : Node
 	{
 		base._Ready();
 
-		if (OS.GetCmdlineArgs()[0] == "server")
+		if (OS.GetCmdlineArgs().Length <= 0 || OS.GetCmdlineArgs()[0] != "client")
 		{
 			isServer = true;
 		}
@@ -20,6 +21,8 @@ public class ServerManager : Node
 		}
 
 		server = new Server(26665);
+		server.LogHelper.Log += Log;
+		server.Start();
 	}
 
 	public override void _Process(float delta)
@@ -32,5 +35,21 @@ public class ServerManager : Node
 		}
 
 		server.Tick();
+	}
+
+	private void Log(LogHelper.LogLevel logLevel, string logMessage)
+	{
+		if (logLevel == LogHelper.LogLevel.Info)
+		{
+			GD.Print(logMessage);
+		}
+		else if (logLevel == LogHelper.LogLevel.Warning)
+		{
+			GD.PushWarning(logMessage);
+		}
+		else if (logLevel == LogHelper.LogLevel.Error)
+		{
+			GD.PushError(logMessage);
+		}
 	}
 }
