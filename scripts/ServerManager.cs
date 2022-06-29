@@ -46,7 +46,7 @@ public class ServerManager : Node
 			return;
 		}
 
-		if (what == MainLoop.NotificationWmQuitRequest)
+		if (what == NotificationWmQuitRequest || what == NotificationCrash)
 		{
 			server.Stop();
 		}
