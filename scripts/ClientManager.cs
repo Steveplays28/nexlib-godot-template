@@ -35,11 +35,12 @@ public class ClientManager : Node
 		client.Tick();
 	}
 
-	public override void _ExitTree()
+	public override void _Notification(int what)
 	{
-		base._ExitTree();
-
-		client.Disconnect();
-		client.Close();
+		if (what == MainLoop.NotificationWmQuitRequest)
+		{
+			client.Disconnect();
+			client.Close();
+		}
 	}
 }

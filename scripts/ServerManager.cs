@@ -53,10 +53,11 @@ public class ServerManager : Node
 		}
 	}
 
-	public override void _ExitTree()
+	public override void _Notification(int what)
 	{
-		base._ExitTree();
-
-		server.Stop();
+		if (what == MainLoop.NotificationWmQuitRequest)
+		{
+			server.Stop();
+		}
 	}
 }
