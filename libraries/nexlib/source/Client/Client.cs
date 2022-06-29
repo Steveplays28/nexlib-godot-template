@@ -66,7 +66,7 @@ namespace NExLib.Client
 				return;
 			}
 
-			// Reset server endpoint
+			IsConnected = false;
 			serverEndPoint = null;
 
 			// Send disconnect packet
