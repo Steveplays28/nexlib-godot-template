@@ -34,4 +34,12 @@ public class ClientManager : Node
 
 		client.Tick();
 	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		client.Disconnect();
+		client.Close();
+	}
 }

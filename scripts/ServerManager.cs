@@ -52,4 +52,11 @@ public class ServerManager : Node
 			GD.PushError(logMessage);
 		}
 	}
+
+	public override void _ExitTree()
+	{
+		base._ExitTree();
+
+		server.Stop();
+	}
 }
